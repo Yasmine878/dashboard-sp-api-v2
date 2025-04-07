@@ -1,0 +1,221 @@
+/* Reset + base styling */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  padding: 2rem;
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Titres */
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Section / carte */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Barre de filtre */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.filter-bar input[type="text"],
+.filter-bar input[type="date"],
+.filter-bar select {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* Tableaux */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+thead th {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 2px solid #1e40af;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f0f9ff;
+}
+
+tbody td {
+  padding: 0.75rem 1rem;
+  color: #1f2937;
+  text-align: center;
+}
+
+tbody tr:hover {
+  background-color: #dbeafe;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Container de graphique */
+.chart-container {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f9fafc;
+  border-radius: 8px;
+}
+
+/* Boutons */
+.btn-blue {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-blue:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.btn-blue:active {
+  background-color: #1e40af;
+  transform: translateY(0);
+}
+
+/* Alertes */
+.alert {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ffeeba;
+  margin-bottom: 1rem;
+}
+
+
+
+
+
+
+/*
+
+.select-input,
+.date-input {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #fff;
+  font-size: 0.875rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.select-input:focus,
+.date-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+.select-input,
+.date-input {
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  color: #111827;
+  width: 100%;
+  max-width: 250px;
+}
+
+/* Icône de flèche personnalisée pour les <select> */
+.select-input {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='%239CA3AF' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 10.939l3.71-3.71a.75.75 0 111.06 1.061l-4.24 4.25a.75.75 0 01-1.06 0l-4.25-4.25a.75.75 0 01.02-1.06z' clip-rule='evenodd' /%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+.select-input:focus,
+.date-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+/* Pour forcer le style sur tous les navigateurs */
+input[type="date"].date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  cursor: pointer;
+}
