@@ -17,16 +17,14 @@ function DashboardFilters({ fournisseurs, onFilterChange, selectedFournisseur, o
       >
         <option value="">Tous les fournisseurs</option>
         {fournisseurs.map((f, idx) => (
-          <option key={idx} value={f}>
-            {f}
-          </option>
+          <option key={idx} value={f}>{f}</option>
         ))}
       </select>
 
       <label htmlFor="date-debut">Date de début :</label>
       <input
         id="date-debut"
-        type="date"
+        type="month"
         onChange={(e) => handleDateChange(e, 'start')}
         className="date-input"
       />
@@ -34,7 +32,7 @@ function DashboardFilters({ fournisseurs, onFilterChange, selectedFournisseur, o
       <label htmlFor="date-fin">Date de fin :</label>
       <input
         id="date-fin"
-        type="date"
+        type="month"
         onChange={(e) => handleDateChange(e, 'end')}
         className="date-input"
       />

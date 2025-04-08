@@ -4,8 +4,6 @@ import "../styles/filters.css";
 import { Line } from 'react-chartjs-2';
 import DashboardFilters from './DashboardFilters';
 
-
-
 const fournisseursList = [
   'Biotech S.A.',
   'Pharmaco Inc.',
@@ -24,24 +22,22 @@ function Dashboard() {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [filteredLaunches, setFilteredLaunches] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [pageOrders, setPageOrders] = useState(1);
+  const [pageLaunches, setPageLaunches] = useState(1);
 
   const paginate = (data, page = 1, perPage = 5) =>
     data.slice((page - 1) * perPage, page * perPage);
 
-  const [pageOrders, setPageOrders] = useState(1);
-  const [pageLaunches, setPageLaunches] = useState(1);
-
   const handleFilterChange = (selected) => setFournisseur(selected);
-  const handleDateChange = (newRange) => setDateRange(newRange);
+  const handleDateChange = (range) => setDateRange(range);
 
   const filterByDate = (mois, annee) => {
     if (!dateRange.start && !dateRange.end) return true;
     const moisIndex = moisLabels.indexOf(mois);
-    const dateStr = `${annee}-${String(moisIndex + 1).padStart(2, '0')}-01`;
-    const date = new Date(dateStr);
-    const startDate = dateRange.start ? new Date(dateRange.start) : null;
-    const endDate = dateRange.end ? new Date(dateRange.end) : null;
-    return (!startDate || date >= startDate) && (!endDate || date <= endDate);
+    const date = new Date(`${annee}-${moisIndex + 1}-01`);
+    const start = dateRange.start ? new Date(`${dateRange.start}-01`) : null;
+    const end = dateRange.end ? new Date(`${dateRange.end}-01`) : null;
+    return (!start || date >= start) && (!end || date <= end);
   };
 
   const applyFilters = () => {
@@ -57,18 +53,12 @@ function Dashboard() {
     setRefreshKey(prev => prev + 1);
   };
 
-  // 👉 Récupération des données depuis l'API
-
-  // 👉 Récupération des données depuis l'API
   useEffect(() => {
     const fetchData = async () => {
       try {
         const ordersResponse = await fetch('http://localhost:5000/orders');
         const launchesResponse = await fetch('http://localhost:5000/launches');
-
-        if (!ordersResponse.ok || !launchesResponse.ok) {
-          throw new Error('Erreur de réponse API');
-        }
+        if (!ordersResponse.ok || !launchesResponse.ok) throw new Error('API error');
 
         const ordersData = await ordersResponse.json();
         const launchesData = await launchesResponse.json();
@@ -76,9 +66,7 @@ function Dashboard() {
         setOrders(ordersData);
         setLaunches(launchesData);
       } catch (error) {
-        console.error('Erreur de chargement des données API :', error);
-
-        // fallback local en cas de plantage API
+        console.error('Erreur API, fallback aux données locales :', error);
         const ordersData = [
           { laboratoire: 'Biotech S.A.', mois: 'Jan', annee: 2025, commandes: 160, caht: 15000, cattc: 18000 },
           { laboratoire: 'Pharmaco Inc.', mois: 'Feb', annee: 2025, commandes: 180, caht: 17000, cattc: 20000 },
@@ -88,7 +76,6 @@ function Dashboard() {
           { laboratoire: 'Pharmaco Inc.', mois: 'Jun', annee: 2025, commandes: 300, caht: 28000, cattc: 33000 },
           { laboratoire: 'Prbamch A.A.', mois: 'Jul', annee: 2025, commandes: 90, caht: 8000, cattc: 9500 },
         ];
-
         const launchesData = [
           { id: 1, fournisseur: 'Biotech S.A.', mois: 'Jan', annee: 2025, heure: '09:00', durée: '15 min', commandes: 160 },
           { id: 2, fournisseur: 'Pharmaco Inc.', mois: 'Feb', annee: 2025, heure: '10:00', durée: '20 min', commandes: 180 },
@@ -98,16 +85,12 @@ function Dashboard() {
           { id: 6, fournisseur: 'Pharmaco Inc.', mois: 'Jun', annee: 2025, heure: '14:00', durée: '19 min', commandes: 300 },
           { id: 7, fournisseur: 'Prbamch A.A.', mois: 'Jul', annee: 2025, heure: '15:00', durée: '12 min', commandes: 9 },
         ];
-
         setOrders(ordersData);
         setLaunches(launchesData);
       }
     };
-
     fetchData();
   }, [refreshKey]);
-
-
 
   useEffect(() => {
     applyFilters();
@@ -122,12 +105,72 @@ function Dashboard() {
           const order = filteredOrders.find((o) => o.mois === m);
           return order ? order.commandes : 0;
         }),
-        backgroundColor: 'rgba(75,192,192,0.6)',
         borderColor: '#007bff',
-        fill: false,
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        yAxisID: 'y',
+        tension: 0.3,
+      },
+      {
+        label: 'CA HT (€)',
+        data: moisLabels.map((m) => {
+          const order = filteredOrders.find((o) => o.mois === m);
+          return order ? order.caht : 0;
+        }),
+        borderColor: '#28a745',
+        backgroundColor: 'rgba(40, 167, 69, 0.4)',
+        yAxisID: 'y1',
+        tension: 0.3,
+      },
+      {
+        label: 'CA TTC (€)',
+        data: moisLabels.map((m) => {
+          const order = filteredOrders.find((o) => o.mois === m);
+          return order ? order.cattc : 0;
+        }),
+        borderColor: '#ffc107',
+        backgroundColor: 'rgba(255, 193, 7, 0.4)',
+        yAxisID: 'y1',
         tension: 0.3,
       },
     ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    stacked: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Statistiques par mois',
+      },
+    },
+    scales: {
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        title: {
+          display: true,
+          text: 'Commandes',
+        },
+      },
+      y1: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+        title: {
+          display: true,
+          text: 'Chiffre d\'Affaires (€)',
+        },
+        grid: {
+          drawOnChartArea: false,
+        },
+      },
+    },
   };
 
   return (
@@ -145,8 +188,8 @@ function Dashboard() {
 
       <div className="dashboard-section">
         <div className="chart-container">
-          <h3>Commandes par Mois</h3>
-          <Line data={chartData} />
+          <h3>Commandes / CA par Mois</h3>
+          <Line data={chartData} options={chartOptions} />
         </div>
 
         <div style={{ flex: 1 }}>
@@ -208,11 +251,9 @@ function Dashboard() {
                 <td>{row.heure}</td>
                 <td>{row.durée}</td>
                 <td>{row.commandes}</td>
-                <td>
-                  {row.commandes < 10 && (
-                    <span className="anomaly-alert">⚠️ Anomalie détectée</span>
-                  )}
-                </td>
+                <td>{row.commandes < 10 && (
+                  <span className="anomaly-alert">⚠️ Anomalie détectée</span>
+                )}</td>
               </tr>
             ))}
           </tbody>
