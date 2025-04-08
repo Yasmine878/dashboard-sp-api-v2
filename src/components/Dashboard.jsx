@@ -186,6 +186,32 @@ function Dashboard() {
 
       <button className="refresh-button" onClick={handleRefresh}>🔄 Rafraîchir les données</button>
 
+   <div className="summary-box">
+  <h3>Résumé global</h3>
+  <ul>
+    <li>🔹 Total commandes : {filteredOrders.reduce((sum, o) => sum + o.commandes, 0)}</li>
+    <li>🔹 CA total HT : {filteredOrders.reduce((sum, o) => sum + o.caht, 0).toLocaleString('fr-FR')} €</li>
+    <li>
+      🔹 Fournisseur top : {
+        (() => {
+          const countByLab = {};
+          filteredOrders.forEach(o => {
+            countByLab[o.laboratoire] = (countByLab[o.laboratoire] || 0) + o.commandes;
+          });
+          const top = Object.entries(countByLab).sort((a, b) => b[1] - a[1])[0];
+          return top ? `${top[0]} (${top[1]} commandes)` : 'N/A';
+        })()
+      }
+    </li>
+  </ul>
+</div>
+
+
+
+
+
+
+      
       <div className="dashboard-section">
         <div className="chart-container">
           <h3>Commandes / CA par Mois</h3>
