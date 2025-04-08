@@ -1,12 +1,65 @@
-# React + Vite
+# 📊 Dashboard SP API V2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ce projet est une application front-end React permettant de visualiser les données issues de l'API Amazon SP. Il comprend deux tableaux de bord :  
+1. Un pour le suivi des **commandes par mois et par laboratoire**  
+2. Un pour le suivi des **lancements de scripts d'importation**
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🧩 Fonctionnalités principales
 
-## Expanding the ESLint configuration
+### ✅ Tableau de bord des commandes
+- Affichage du **nombre de commandes**, **CA HT** et **CA TTC** par mois, année et laboratoire
+- Filtres :
+  - Par fournisseur
+  - Par plage de date (**mois + année**)
+- Graphique interactif avec :
+  - Nombre de commandes
+  - Chiffre d’affaires HT / TTC
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### ✅ Tableau de bord des lancements
+- Liste des scripts lancés avec :
+  - Heure de début, durée
+  - Nombre de commandes par fournisseur
+- Filtres par fournisseur et date
+- **Pagination** et **rafraîchissement manuel des données**
+
+### ⚠️ Détection d’anomalies
+- Alertes si un fournisseur a moins de **10 commandes** dans un lancement
+- Mise en surbrillance visuelle des lignes concernées
+
+---
+
+## 🧪 Tests
+
+- Tests unitaires et fonctionnels (à développer avec `Jest` ou `React Testing Library`)
+- Vérification de la cohérence des données entre back-end et affichage
+
+---
+
+## 🚀 Déploiement
+
+Le projet est déployé avec **Vercel** :
+
+🌐 [Lien vers le déploiement](https://dashboard-sp-api-v2.vercel.app)
+
+---
+
+## 🛠️ Installation
+
+### Prérequis
+- Node.js 18+
+- Git
+
+### Étapes
+
+```bash
+# Cloner le projet
+git clone https://github.com/votre-utilisateur/dashboard-sp-api-v2.git
+cd dashboard-sp-api-v2
+
+# Installer les dépendances
+npm install
+
+# Lancer le projet en local
+npm run dev
